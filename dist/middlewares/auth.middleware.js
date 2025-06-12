@@ -30,13 +30,22 @@ let AuthGuard = class AuthGuard {
             }
             const payload = this.jwtService.getPayload(token);
             const user = await this.usersService.findByEmail(payload.email);
+            if (!user) {
+                throw new common_1.UnauthorizedException('User not found');
+            }
             request.user = user;
-            const permissions = this.reflector.get(permissions_decorator_1.Permissions, context.getHandler());
-            console.log(permissions);
+            const requiredPermissions = this.reflector.get(permissions_decorator_1.Permissions, context.getHandler());
+            if (!requiredPermissions) {
+                return true;
+            }
+            const hasPermission = () => user.permissionCodes.some((p) => requiredPermissions.includes(p));
+            if (!hasPermission()) {
+                throw new common_1.UnauthorizedException('You do not have permission to access this resource');
+            }
             return true;
         }
         catch (error) {
-            throw new common_1.UnauthorizedException(error?.message);
+            throw new common_1.UnauthorizedException(error?.message || 'Invalid token');
         }
     }
 };

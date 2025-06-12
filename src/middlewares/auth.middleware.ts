@@ -28,13 +28,26 @@ export class AuthGuard implements CanActivate {
       }
       const payload = this.jwtService.getPayload(token);
       const user = await this.usersService.findByEmail(payload.email);
+      if (!user) {
+        throw new UnauthorizedException('User not found');
+      }
       request.user = user;
-      //AGREGAR LOGICA PARA USAR LOS PERMISOS QUE VIENEN EN EL DECORADOR
-      const permissions = this.reflector.get(Permissions, context.getHandler());
-      console.log(permissions)
+
+      const requiredPermissions = this.reflector.get(Permissions, context.getHandler());
+      if (!requiredPermissions) {
+        return true; // No permissions required, allow access
+      }
+
+      const hasPermission = () =>
+        user.permissionCodes.some((p) => requiredPermissions.includes(p));
+
+      if (!hasPermission()) {
+        throw new UnauthorizedException('You do not have permission to access this resource');
+      }
+
       return true;
     } catch (error) {
-      throw new UnauthorizedException(error?.message);
+      throw new UnauthorizedException(error?.message || 'Invalid token');
     }
   }
 }

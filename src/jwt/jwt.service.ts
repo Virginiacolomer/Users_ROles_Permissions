@@ -42,6 +42,10 @@ export class JwtService {
   }
 
   getPayload(token: string, type: 'refresh' | 'auth' = 'auth'): Payload {
-    return verify(token, this.config[type].secret);
+    const payload = verify(token, this.config[type].secret);
+    if (typeof payload === 'string') {
+      throw new UnauthorizedException('Invalid token');
+    }
+    return payload as Payload;
   }
 }

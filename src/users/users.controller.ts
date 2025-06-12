@@ -15,6 +15,7 @@ import { AuthGuard } from '../middlewares/auth.middleware';
 import { RequestWithUser } from 'src/interfaces/request-user';
 import { AssignRolesDto } from 'src/interfaces/AssignRoles.dto';
 import { CreateUserDto } from 'src/interfaces/create-user.dto';
+import { Permissions } from 'src/middlewares/decorators/permissions.decorator';
 
 @Controller('users')
 export class UsersController {
@@ -48,6 +49,8 @@ export class UsersController {
   }
 
   @Post('assign-role')
+  @UseGuards(AuthGuard)
+  @Permissions(['roles_assign'])
   assignRole(@Body() assignRolesDto: AssignRolesDto) {
     return this.service.assignRoles(assignRolesDto);
   }

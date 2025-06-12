@@ -14,7 +14,10 @@ const typeorm_1 = require("typeorm");
 const role_entity_1 = require("./role.entity");
 let UserEntity = class UserEntity extends typeorm_1.BaseEntity {
     get permissionCodes() {
-        return ['create-users', 'list-products'];
+        if (this.role && this.role.permissions) {
+            return this.role.permissions.map((p) => p.name);
+        }
+        return [];
     }
 };
 exports.UserEntity = UserEntity;
@@ -32,7 +35,7 @@ __decorate([
     __metadata("design:type", String)
 ], UserEntity.prototype, "password", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => role_entity_1.Role),
+    (0, typeorm_1.ManyToOne)(() => role_entity_1.Role, (role) => role.users, { eager: true }),
     (0, typeorm_1.JoinColumn)({ name: 'role_id' }),
     __metadata("design:type", role_entity_1.Role)
 ], UserEntity.prototype, "role", void 0);

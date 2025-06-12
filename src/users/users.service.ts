@@ -33,7 +33,7 @@ export class UsersService {
     return this.jwtService.refreshToken(refreshToken);
   }
 
-  canDo(user: UserI, permission: string): boolean {
+  canDo(user: UserEntity, permission: string): boolean {
     const result = user.permissionCodes.includes(permission);
     if (!result) {
       throw new UnauthorizedException();
@@ -72,8 +72,11 @@ async register(body: RegisterDTO) {
     };
   }
 
-async findByEmail(email: string): Promise<UserI | undefined> {
-  return this.usersRepository.findOne({ where: { email } });
+async findByEmail(email: string): Promise<UserEntity | undefined> {
+  return this.usersRepository.findOne({
+    where: { email },
+    relations: ['role', 'role.permissions'],
+  });
 }
 
 

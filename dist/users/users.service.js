@@ -67,7 +67,10 @@ let UsersService = class UsersService {
         };
     }
     async findByEmail(email) {
-        return this.usersRepository.findOne({ where: { email } });
+        return this.usersRepository.findOne({
+            where: { email },
+            relations: ['role', 'role.permissions'],
+        });
     }
     async assignRoles(assignRoles) {
         const user = await this.usersRepository.findOne({

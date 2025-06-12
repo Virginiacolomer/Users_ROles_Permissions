@@ -44,7 +44,11 @@ let JwtService = class JwtService {
         }
     }
     getPayload(token, type = 'auth') {
-        return (0, jsonwebtoken_1.verify)(token, this.config[type].secret);
+        const payload = (0, jsonwebtoken_1.verify)(token, this.config[type].secret);
+        if (typeof payload === 'string') {
+            throw new common_1.UnauthorizedException('Invalid token');
+        }
+        return payload;
     }
 };
 exports.JwtService = JwtService;

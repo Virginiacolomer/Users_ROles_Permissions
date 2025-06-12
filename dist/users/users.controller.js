@@ -20,6 +20,7 @@ const register_dto_1 = require("../interfaces/register.dto");
 const auth_middleware_1 = require("../middlewares/auth.middleware");
 const AssignRoles_dto_1 = require("../interfaces/AssignRoles.dto");
 const create_user_dto_1 = require("../interfaces/create-user.dto");
+const permissions_decorator_1 = require("../middlewares/decorators/permissions.decorator");
 let UsersController = class UsersController {
     constructor(service) {
         this.service = service;
@@ -90,6 +91,8 @@ __decorate([
 ], UsersController.prototype, "refreshToken", null);
 __decorate([
     (0, common_1.Post)('assign-role'),
+    (0, common_1.UseGuards)(auth_middleware_1.AuthGuard),
+    (0, permissions_decorator_1.Permissions)(['roles_assign']),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [AssignRoles_dto_1.AssignRolesDto]),

@@ -16,6 +16,8 @@ exports.PermissionsController = void 0;
 const common_1 = require("@nestjs/common");
 const permissions_service_1 = require("./permissions.service");
 const create_permission_dto_1 = require("../interfaces/create-permission.dto");
+const auth_middleware_1 = require("../middlewares/auth.middleware");
+const permissions_decorator_1 = require("../middlewares/decorators/permissions.decorator");
 let PermissionsController = class PermissionsController {
     constructor(permissionsService) {
         this.permissionsService = permissionsService;
@@ -30,6 +32,8 @@ let PermissionsController = class PermissionsController {
 exports.PermissionsController = PermissionsController;
 __decorate([
     (0, common_1.Post)(),
+    (0, common_1.UseGuards)(auth_middleware_1.AuthGuard),
+    (0, permissions_decorator_1.Permissions)(['permissions_create']),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_permission_dto_1.CreatePermissionDto]),
