@@ -12,16 +12,14 @@ const auth_service_1 = require("./auth.service");
 const auth_controller_1 = require("./auth.controller");
 const jwt_1 = require("@nestjs/jwt");
 const passport_1 = require("@nestjs/passport");
-const users_service_1 = require("../users/users.service");
-const users_controller_1 = require("../users/users.controller");
+const users_module_1 = require("../users/users.module");
 let AuthModule = class AuthModule {
 };
 exports.AuthModule = AuthModule;
 exports.AuthModule = AuthModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            users_service_1.UsersService,
-            users_controller_1.UsersController,
+            users_module_1.UsersModule,
             passport_1.PassportModule,
             jwt_1.JwtModule.register({
                 secret: 'TU_SECRETO_SEGURO',

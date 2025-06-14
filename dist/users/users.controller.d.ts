@@ -15,9 +15,7 @@ export declare class UsersController {
         accessToken: string;
         refreshToken: string;
     }>;
-    register(body: RegisterDTO): Promise<{
-        status: string;
-    }>;
+    register(body: RegisterDTO): Promise<import("../entities/user.entity").UserEntity>;
     canDo(request: RequestWithUser, permission: string): boolean;
     refreshToken(request: Request): Promise<{
         accessToken: string;

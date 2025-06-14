@@ -53,6 +53,7 @@ let UsersController = class UsersController {
 exports.UsersController = UsersController;
 __decorate([
     (0, common_1.UseGuards)(auth_middleware_1.AuthGuard),
+    (0, permissions_decorator_1.Permissions)(['myEmail']),
     (0, common_1.Get)('me'),
     __param(0, (0, common_1.Req)()),
     __metadata("design:type", Function),
@@ -67,6 +68,8 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "login", null);
 __decorate([
+    (0, common_1.UseGuards)(auth_middleware_1.AuthGuard),
+    (0, permissions_decorator_1.Permissions)(['user-create']),
     (0, common_1.Post)('register'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -75,6 +78,7 @@ __decorate([
 ], UsersController.prototype, "register", null);
 __decorate([
     (0, common_1.UseGuards)(auth_middleware_1.AuthGuard),
+    (0, permissions_decorator_1.Permissions)(['verify-permission']),
     (0, common_1.Get)('can-do/:permission'),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Param)('permission')),
@@ -92,7 +96,7 @@ __decorate([
 __decorate([
     (0, common_1.Post)('assign-role'),
     (0, common_1.UseGuards)(auth_middleware_1.AuthGuard),
-    (0, permissions_decorator_1.Permissions)(['roles_assign']),
+    (0, permissions_decorator_1.Permissions)(['role-assign']),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [AssignRoles_dto_1.AssignRolesDto]),
@@ -100,11 +104,15 @@ __decorate([
 ], UsersController.prototype, "assignRole", null);
 __decorate([
     (0, common_1.Get)('users'),
+    (0, common_1.UseGuards)(auth_middleware_1.AuthGuard),
+    (0, permissions_decorator_1.Permissions)(['all-users']),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "findAll", null);
 __decorate([
+    (0, common_1.UseGuards)(auth_middleware_1.AuthGuard),
+    (0, permissions_decorator_1.Permissions)(['user-create']),
     (0, common_1.Post)('register-user'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),

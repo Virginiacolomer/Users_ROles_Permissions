@@ -33,7 +33,7 @@ exports.RolesController = RolesController;
 __decorate([
     (0, common_1.Post)(),
     (0, common_1.UseGuards)(auth_middleware_1.AuthGuard),
-    (0, permissions_decorator_1.Permissions)(['roles_create']),
+    (0, permissions_decorator_1.Permissions)(['roles-create']),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_role_dto_1.CreateRoleDto]),
@@ -41,6 +41,8 @@ __decorate([
 ], RolesController.prototype, "create", null);
 __decorate([
     (0, common_1.Get)(),
+    (0, common_1.UseGuards)(auth_middleware_1.AuthGuard),
+    (0, permissions_decorator_1.Permissions)(['all-roles']),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)

@@ -33,7 +33,7 @@ exports.PermissionsController = PermissionsController;
 __decorate([
     (0, common_1.Post)(),
     (0, common_1.UseGuards)(auth_middleware_1.AuthGuard),
-    (0, permissions_decorator_1.Permissions)(['permissions_create']),
+    (0, permissions_decorator_1.Permissions)(['permissions-create']),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_permission_dto_1.CreatePermissionDto]),
@@ -41,6 +41,8 @@ __decorate([
 ], PermissionsController.prototype, "create", null);
 __decorate([
     (0, common_1.Get)(),
+    (0, common_1.UseGuards)(auth_middleware_1.AuthGuard),
+    (0, permissions_decorator_1.Permissions)(['all-permissions']),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)

@@ -1,1 +1,42 @@
 docker exec -it users_roles_permissions-db-1 psql -U postgres -d users_db
+
+Para ingresar en la base con uno de los usuarios cargados y comprobar los permisos asociados:
+
+# CON POSTMAN:
+
+URL: http://localhost:3002/auth/login
+Método: POST
+Headers:
+      Content-Type: application/json
+
+Body (JSON):
+      {
+      "email": "colomervirginia63@gmail.com",
+      "password": "Virginia123"
+      }
+
+
+Lo que nos devuelve el accessToken y refreshToken
+Debemos guardar el accessToken para poder hacer peticiones que necesitan autenticacion (Todas menos el registro, inicio de sesion y refreshToken)
+
+Luego para realizar la peticion:
+
+Headers:
+      Authorization: Bearer <accessToken>
+      Content-Type: application/json
+
+Si el usuario tiene el permiso lo crea, sino, nos lanzara un error 401 o 403 con el mensaje definido en auth.middleware.ts: 
+                                'You do not have permission to access this resource'
+
+
+
+Al registrar los usuarios lo hicimos de esta forma:
+
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
+  ('aballayesteban2@gmail.com', crypt('Esteban123', gen_salt('bf')), 1),
+  ('boninolourdes8@gmail.com', crypt('Lourdes123', gen_salt('bf')), 2),
+  ('colomervirginia63@gmail.com', crypt('Virginia123', gen_salt('bf')), 4),
+  ('nazafabiani@gmail.com', crypt('Nazareno123', gen_salt('bf')), 5),
+  ('juanperez@gmail.com', crypt('Juan123', gen_salt('bf')), 3);
+Para poder hashear las contraseñas

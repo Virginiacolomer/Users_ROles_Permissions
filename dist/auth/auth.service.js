@@ -19,6 +19,20 @@ let AuthService = class AuthService {
         this.usersService = usersService;
         this.jwtService = jwtService;
     }
+    async register(email, password) {
+        const existing = await this.usersService.findByEmail(email);
+        if (existing) {
+            throw new common_1.BadRequestException('El email ya está registrado');
+        }
+        const user = await this.usersService.register({ email, password });
+        return {
+            message: 'Usuario registrado correctamente',
+            user: {
+                id: user.id,
+                email: user.email,
+            },
+        };
+    }
     async validateUser(email, password) {
         const user = await this.usersService.findByEmail(email);
         if (user && await bcrypt.compare(password, user.password)) {

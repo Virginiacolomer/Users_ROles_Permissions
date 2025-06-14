@@ -22,6 +22,7 @@ export class UsersController {
   constructor(private service: UsersService) {}
 
   @UseGuards(AuthGuard)
+  @Permissions(['myEmail'])
   @Get('me')
   me(@Req() req: RequestWithUser) {
     return { email: req.user.email };
@@ -32,12 +33,15 @@ export class UsersController {
     return this.service.login(body);
   }
 
+  @UseGuards(AuthGuard)
+  @Permissions(['user-create'])
   @Post('register')
   register(@Body() body: RegisterDTO) {
     return this.service.register(body);
   }
 
   @UseGuards(AuthGuard)
+  @Permissions(['verify-permission'])
   @Get('can-do/:permission')
   canDo(@Req() request: RequestWithUser, @Param('permission') permission: string) {
     return this.service.canDo(request.user, permission);
@@ -50,16 +54,20 @@ export class UsersController {
 
   @Post('assign-role')
   @UseGuards(AuthGuard)
-  @Permissions(['roles_assign'])
+  @Permissions(['role-assign'])
   assignRole(@Body() assignRolesDto: AssignRolesDto) {
     return this.service.assignRoles(assignRolesDto);
   }
 
   @Get('users')
+  @UseGuards(AuthGuard)
+  @Permissions(['all-users'])
   async findAll() {
     return this.service.findAllUsers();
   }
 
+  @UseGuards(AuthGuard)
+  @Permissions(['user-create'])
   @Post('register-user')
   async create(@Body() createUserDto: CreateUserDto) {
   return this.service.create(createUserDto);

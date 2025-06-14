@@ -10,12 +10,14 @@ export class RolesController {
 
   @Post()
   @UseGuards(AuthGuard)
-  @Permissions(['roles_create'])
+  @Permissions(['roles-create'])
   create(@Body() createRoleDto: CreateRoleDto) {
     return this.rolesService.create(createRoleDto);
   }
 
   @Get()
+  @UseGuards(AuthGuard)
+  @Permissions(['all-roles'])
   findAll() {
     return this.rolesService.findAll();
   }

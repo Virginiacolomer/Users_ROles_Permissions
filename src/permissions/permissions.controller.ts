@@ -10,12 +10,14 @@ export class PermissionsController {
 
   @Post()
   @UseGuards(AuthGuard)
-  @Permissions(['permissions_create'])
+  @Permissions(['permissions-create'])
   create(@Body() createPermissionDto: CreatePermissionDto) {
     return this.permissionsService.create(createPermissionDto);
   }
 
   @Get()
+  @UseGuards(AuthGuard)
+  @Permissions(['all-permissions'])
   findAll() {
     return this.permissionsService.findAll();
   }

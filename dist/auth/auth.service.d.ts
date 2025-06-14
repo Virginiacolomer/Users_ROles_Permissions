@@ -4,6 +4,13 @@ export declare class AuthService {
     private usersService;
     private jwtService;
     constructor(usersService: UsersService, jwtService: JwtService);
+    register(email: string, password: string): Promise<{
+        message: string;
+        user: {
+            id: number;
+            email: string;
+        };
+    }>;
     validateUser(email: string, password: string): Promise<{
         id: number;
         email: string;

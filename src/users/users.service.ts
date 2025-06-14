@@ -41,18 +41,17 @@ export class UsersService {
     return true;
   }
 
-async register(body: RegisterDTO) {
-  try {
-    const user = new UserEntity();
-    user.email = body.email;
-    user.password = await bcrypt.hash(body.password, 10);
+  async register(body: RegisterDTO): Promise<UserEntity> {
+    try {
+      const user = new UserEntity();
+      user.email = body.email;
+      user.password = await bcrypt.hash(body.password, 10);
 
-    await this.usersRepository.save(user);
-    return { status: 'created' };
-  } catch (error) {
-    throw new HttpException('Error de creación', 500);
+      return await this.usersRepository.save(user); // devuelvo el usuario creado
+    } catch (error) {
+      throw new HttpException('Error de creación', 500);
+    }
   }
-}
 
   async login(body: LoginDTO) {
     const user = await this.usersRepository.findOne({

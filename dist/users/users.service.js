@@ -42,8 +42,7 @@ let UsersService = class UsersService {
             const user = new user_entity_1.UserEntity();
             user.email = body.email;
             user.password = await bcrypt.hash(body.password, 10);
-            await this.usersRepository.save(user);
-            return { status: 'created' };
+            return await this.usersRepository.save(user);
         }
         catch (error) {
             throw new common_1.HttpException('Error de creación', 500);

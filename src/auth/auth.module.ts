@@ -3,14 +3,12 @@ import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
-import { UsersService } from '../users/users.service';
-import { UsersController } from '../users/users.controller';
+import { UsersModule } from '../users/users.module';
 
 
 @Module({
   imports: [
-    UsersService,
-    UsersController,
+    UsersModule,
     PassportModule,
     JwtModule.register({
       secret: 'TU_SECRETO_SEGURO', // idealmente sacarlo a una env var
