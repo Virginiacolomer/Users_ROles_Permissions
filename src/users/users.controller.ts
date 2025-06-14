@@ -60,7 +60,7 @@ export class UsersController {
     return this.service.findAllUsers();
   }
 
-  @Post()
+  @Post('register-user')
   async create(@Body() createUserDto: CreateUserDto) {
   return this.service.create(createUserDto);
 }

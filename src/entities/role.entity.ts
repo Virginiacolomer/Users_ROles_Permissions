@@ -10,6 +10,9 @@ export class Role {
     @Column({unique: true})
     name: string;
 
+    @Column()
+    description: string;
+
     @ManyToMany(() => Permission, { eager: true })
     @JoinTable({
     name: 'role_permissions', // tabla intermedia explícita para relación muchos a muchos
