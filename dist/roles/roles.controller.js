@@ -16,7 +16,7 @@ exports.RolesController = void 0;
 const common_1 = require("@nestjs/common");
 const roles_service_1 = require("./roles.service");
 const create_role_dto_1 = require("../interfaces/create-role.dto");
-const auth_middleware_1 = require("../middlewares/auth.middleware");
+const jwt_auth_guard_1 = require("../auth/jwt-auth.guard");
 const permissions_decorator_1 = require("../middlewares/decorators/permissions.decorator");
 let RolesController = class RolesController {
     constructor(rolesService) {
@@ -32,7 +32,7 @@ let RolesController = class RolesController {
 exports.RolesController = RolesController;
 __decorate([
     (0, common_1.Post)(),
-    (0, common_1.UseGuards)(auth_middleware_1.AuthGuard),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, permissions_decorator_1.Permissions)(['roles-create']),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -41,7 +41,7 @@ __decorate([
 ], RolesController.prototype, "create", null);
 __decorate([
     (0, common_1.Get)(),
-    (0, common_1.UseGuards)(auth_middleware_1.AuthGuard),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, permissions_decorator_1.Permissions)(['all-roles']),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),

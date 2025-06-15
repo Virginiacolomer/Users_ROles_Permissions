@@ -16,6 +16,7 @@ const users_module_1 = require("./users/users.module");
 const roles_module_1 = require("./roles/roles.module");
 const permissions_module_1 = require("./permissions/permissions.module");
 const auth_module_1 = require("./auth/auth.module");
+const config_1 = require("@nestjs/config");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -26,6 +27,9 @@ exports.AppModule = AppModule = __decorate([
             roles_module_1.RolesModule,
             permissions_module_1.PermissionsModule,
             auth_module_1.AuthModule,
+            config_1.ConfigModule.forRoot({
+                isGlobal: true,
+            }),
             typeorm_1.TypeOrmModule.forRoot({
                 type: 'postgres',
                 host: 'localhost',

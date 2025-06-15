@@ -17,9 +17,8 @@ const common_1 = require("@nestjs/common");
 const users_service_1 = require("./users.service");
 const login_dto_1 = require("../interfaces/login.dto");
 const register_dto_1 = require("../interfaces/register.dto");
-const auth_middleware_1 = require("../middlewares/auth.middleware");
+const jwt_auth_guard_1 = require("../auth/jwt-auth.guard");
 const AssignRoles_dto_1 = require("../interfaces/AssignRoles.dto");
-const create_user_dto_1 = require("../interfaces/create-user.dto");
 const permissions_decorator_1 = require("../middlewares/decorators/permissions.decorator");
 let UsersController = class UsersController {
     constructor(service) {
@@ -46,13 +45,10 @@ let UsersController = class UsersController {
     async findAll() {
         return this.service.findAllUsers();
     }
-    async create(createUserDto) {
-        return this.service.create(createUserDto);
-    }
 };
 exports.UsersController = UsersController;
 __decorate([
-    (0, common_1.UseGuards)(auth_middleware_1.AuthGuard),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, permissions_decorator_1.Permissions)(['myEmail']),
     (0, common_1.Get)('me'),
     __param(0, (0, common_1.Req)()),
@@ -68,7 +64,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "login", null);
 __decorate([
-    (0, common_1.UseGuards)(auth_middleware_1.AuthGuard),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, permissions_decorator_1.Permissions)(['user-create']),
     (0, common_1.Post)('register'),
     __param(0, (0, common_1.Body)()),
@@ -77,7 +73,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "register", null);
 __decorate([
-    (0, common_1.UseGuards)(auth_middleware_1.AuthGuard),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, permissions_decorator_1.Permissions)(['verify-permission']),
     (0, common_1.Get)('can-do/:permission'),
     __param(0, (0, common_1.Req)()),
@@ -95,7 +91,7 @@ __decorate([
 ], UsersController.prototype, "refreshToken", null);
 __decorate([
     (0, common_1.Post)('assign-role'),
-    (0, common_1.UseGuards)(auth_middleware_1.AuthGuard),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, permissions_decorator_1.Permissions)(['role-assign']),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -104,21 +100,12 @@ __decorate([
 ], UsersController.prototype, "assignRole", null);
 __decorate([
     (0, common_1.Get)('users'),
-    (0, common_1.UseGuards)(auth_middleware_1.AuthGuard),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, permissions_decorator_1.Permissions)(['all-users']),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "findAll", null);
-__decorate([
-    (0, common_1.UseGuards)(auth_middleware_1.AuthGuard),
-    (0, permissions_decorator_1.Permissions)(['user-create']),
-    (0, common_1.Post)('register-user'),
-    __param(0, (0, common_1.Body)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [create_user_dto_1.CreateUserDto]),
-    __metadata("design:returntype", Promise)
-], UsersController.prototype, "create", null);
 exports.UsersController = UsersController = __decorate([
     (0, common_1.Controller)('users'),
     __metadata("design:paramtypes", [users_service_1.UsersService])

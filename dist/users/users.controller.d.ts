@@ -4,7 +4,6 @@ import { RegisterDTO } from '../interfaces/register.dto';
 import { Request } from 'express';
 import { RequestWithUser } from 'src/interfaces/request-user';
 import { AssignRolesDto } from 'src/interfaces/AssignRoles.dto';
-import { CreateUserDto } from 'src/interfaces/create-user.dto';
 export declare class UsersController {
     private service;
     constructor(service: UsersService);
@@ -31,5 +30,4 @@ export declare class UsersController {
         email: string;
         role: string;
     }[]>;
-    create(createUserDto: CreateUserDto): Promise<import("../entities/user.entity").UserEntity>;
 }

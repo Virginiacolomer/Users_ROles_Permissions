@@ -103,20 +103,6 @@ let UsersService = class UsersService {
             role: user.role?.name || null,
         }));
     }
-    async create(createUserDto) {
-        const role = await this.rolesRepository.findOne({
-            where: { id: createUserDto.roleId },
-        });
-        if (!role) {
-            throw new Error('Role not found');
-        }
-        const user = this.usersRepository.create({
-            email: createUserDto.email,
-            password: createUserDto.password,
-            role,
-        });
-        return this.usersRepository.save(user);
-    }
 };
 exports.UsersService = UsersService;
 exports.UsersService = UsersService = __decorate([

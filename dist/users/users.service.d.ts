@@ -5,7 +5,6 @@ import { JwtService } from 'src/jwt/jwt.service';
 import { AssignRolesDto } from 'src/interfaces/AssignRoles.dto';
 import { Repository } from 'typeorm';
 import { Role } from '../entities/role.entity';
-import { CreateUserDto } from 'src/interfaces/create-user.dto';
 export declare class UsersService {
     private usersRepository;
     private rolesRepository;
@@ -32,5 +31,4 @@ export declare class UsersService {
         email: string;
         role: string;
     }[]>;
-    create(createUserDto: CreateUserDto): Promise<UserEntity>;
 }

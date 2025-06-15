@@ -6,15 +6,13 @@ import {
 } from '@nestjs/common';
 import { LoginDTO } from 'src/interfaces/login.dto';
 import { RegisterDTO } from 'src/interfaces/register.dto';
-import { UserI } from 'src/interfaces/user.interface';
 import { UserEntity } from '../entities/user.entity';
-import { hashSync, compareSync } from 'bcrypt';
+import { compareSync } from 'bcrypt';
 import { JwtService } from 'src/jwt/jwt.service';
 import { AssignRolesDto } from 'src/interfaces/AssignRoles.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Role } from '../entities/role.entity';
-import { CreateUserDto } from 'src/interfaces/create-user.dto';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
@@ -116,22 +114,4 @@ async findByEmail(email: string): Promise<UserEntity | undefined> {
       role: user.role?.name || null,
     }));
   }
-
-  async create(createUserDto: CreateUserDto): Promise<UserEntity> {
-  const role = await this.rolesRepository.findOne({
-    where: { id: createUserDto.roleId },
-  });
-
-  if (!role) {
-    throw new Error('Role not found');
-  }
-
-  const user = this.usersRepository.create({
-    email: createUserDto.email,
-    password: createUserDto.password,
-    role,
-  });
-
-  return this.usersRepository.save(user);
-}
 }

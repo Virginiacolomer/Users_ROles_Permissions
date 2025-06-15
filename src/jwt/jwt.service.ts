@@ -1,40 +1,43 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { sign, verify } from 'jsonwebtoken';
 import * as dayjs from 'dayjs';
+import { ConfigService } from '@nestjs/config';
 import { Payload } from 'src/interfaces/payload';
+
 @Injectable()
 export class JwtService {
-  // config.ts
-  config = {
-    auth: {
-      secret: 'authSecret',
-      expiresIn: '15m',
-    },
-    refresh: {
-      secret: 'refreshSecret',
-      expiresIn: '1d',
-    },
-  };
-  generateToken(
-    payload: { email: string },
-    type: 'refresh' | 'auth' = 'auth',
-  ): string {
+  constructor(private configService: ConfigService) {}
+
+  private get config() {
+    return {
+      auth: {
+        secret: this.configService.get<string>('JWT_SECRET'),
+        expiresIn: '15m',
+      },
+      refresh: {
+        secret: this.configService.get<string>('JWT_REFRESH_SECRET'),
+        expiresIn: '1d',
+      },
+    };
+  }
+
+  generateToken(payload: { email: string }, type: 'refresh' | 'auth' = 'auth'): string {
     return sign(payload, this.config[type].secret, {
       expiresIn: this.config[type].expiresIn,
     });
   }
 
-  refreshToken(refreshToken: string):{accessToken:string,refreshToken:string} {
+  refreshToken(refreshToken: string): { accessToken: string; refreshToken: string } {
     try {
-      const payload = this.getPayload(refreshToken,'refresh')
-      // Obtiene el tiempo restante en minutos hasta la expiración
+      const payload = this.getPayload(refreshToken, 'refresh');
       const timeToExpire = dayjs.unix(payload.exp).diff(dayjs(), 'minute');
+
       return {
         accessToken: this.generateToken({ email: payload.email }),
         refreshToken:
           timeToExpire < 20
             ? this.generateToken({ email: payload.email }, 'refresh')
-            : refreshToken
+            : refreshToken,
       };
     } catch (error) {
       throw new UnauthorizedException();
