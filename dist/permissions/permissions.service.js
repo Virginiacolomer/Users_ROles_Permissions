@@ -41,7 +41,16 @@ let PermissionsService = class PermissionsService {
         }
     }
     async findAll() {
-        return await this.permissionsRepository.find({ relations: ['roles'] });
+        const permissions = await this.permissionsRepository
+            .createQueryBuilder('permission')
+            .leftJoinAndSelect('permission.roles', 'role')
+            .getMany();
+        return permissions.map(permission => ({
+            id: permission.id,
+            name: permission.name,
+            description: permission.description,
+            roles: permission.roles.map(role => role.id),
+        }));
     }
 };
 exports.PermissionsService = PermissionsService;

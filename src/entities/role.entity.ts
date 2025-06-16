@@ -13,13 +13,13 @@ export class Role {
     @Column()
     description: string;
 
-    @ManyToMany(() => Permission, { eager: true })
-    @JoinTable({
-    name: 'role_permissions', // tabla intermedia explícita para relación muchos a muchos
-    joinColumn: { name: 'role_id', referencedColumnName: 'id' },
-    inverseJoinColumn: { name: 'permission_id', referencedColumnName: 'id' },
-  })
-    permissions: Permission[];
+    @ManyToMany(() => Permission, permission => permission.roles, { eager: true })
+@JoinTable({
+  name: 'role_permissions',
+  joinColumn: { name: 'role_id', referencedColumnName: 'id' },
+  inverseJoinColumn: { name: 'permission_id', referencedColumnName: 'id' },
+})
+permissions: Permission[];
 
     @OneToMany(() => UserEntity, user => user.role)
     users: UserEntity[];

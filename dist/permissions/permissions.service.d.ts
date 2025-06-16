@@ -7,5 +7,10 @@ export declare class PermissionsService {
     private rolesRepository;
     constructor(permissionsRepository: Repository<Permission>, rolesRepository: Repository<Role>);
     create(createPermissionDto: CreatePermissionDto): Promise<Permission>;
-    findAll(): Promise<Permission[]>;
+    findAll(): Promise<{
+        id: number;
+        name: string;
+        description: string;
+        roles: number[];
+    }[]>;
 }

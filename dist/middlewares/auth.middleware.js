@@ -14,7 +14,6 @@ const common_1 = require("@nestjs/common");
 const core_1 = require("@nestjs/core");
 const jwt_service_1 = require("../jwt/jwt.service");
 const users_service_1 = require("../users/users.service");
-const permissions_decorator_1 = require("./decorators/permissions.decorator");
 let AuthGuard = class AuthGuard {
     constructor(jwtService, usersService, reflector) {
         this.jwtService = jwtService;
@@ -34,7 +33,7 @@ let AuthGuard = class AuthGuard {
                 throw new common_1.UnauthorizedException('User not found');
             }
             request.user = user;
-            const requiredPermissions = this.reflector.get(permissions_decorator_1.Permissions, context.getHandler());
+            const requiredPermissions = this.reflector.get('permissions', context.getHandler());
             if (!requiredPermissions) {
                 return true;
             }

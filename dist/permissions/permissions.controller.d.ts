@@ -4,5 +4,10 @@ export declare class PermissionsController {
     private readonly permissionsService;
     constructor(permissionsService: PermissionsService);
     create(createPermissionDto: CreatePermissionDto): Promise<import("../entities/permission.entity").Permission>;
-    findAll(): Promise<import("../entities/permission.entity").Permission[]>;
+    findAll(): Promise<{
+        id: number;
+        name: string;
+        description: string;
+        roles: number[];
+    }[]>;
 }

@@ -29,7 +29,7 @@ __decorate([
     __metadata("design:type", String)
 ], Role.prototype, "description", void 0);
 __decorate([
-    (0, typeorm_1.ManyToMany)(() => permission_entity_1.Permission, { eager: true }),
+    (0, typeorm_1.ManyToMany)(() => permission_entity_1.Permission, permission => permission.roles, { eager: true }),
     (0, typeorm_1.JoinTable)({
         name: 'role_permissions',
         joinColumn: { name: 'role_id', referencedColumnName: 'id' },

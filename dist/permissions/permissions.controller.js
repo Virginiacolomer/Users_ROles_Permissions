@@ -18,6 +18,7 @@ const permissions_service_1 = require("./permissions.service");
 const create_permission_dto_1 = require("../interfaces/create-permission.dto");
 const jwt_auth_guard_1 = require("../auth/jwt-auth.guard");
 const permissions_decorator_1 = require("../middlewares/decorators/permissions.decorator");
+const auth_guard_1 = require("../auth/auth.guard");
 let PermissionsController = class PermissionsController {
     constructor(permissionsService) {
         this.permissionsService = permissionsService;
@@ -32,7 +33,7 @@ let PermissionsController = class PermissionsController {
 exports.PermissionsController = PermissionsController;
 __decorate([
     (0, common_1.Post)(),
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, auth_guard_1.AuthGuard),
     (0, permissions_decorator_1.Permissions)(['permissions-create']),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -41,7 +42,7 @@ __decorate([
 ], PermissionsController.prototype, "create", null);
 __decorate([
     (0, common_1.Get)(),
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, auth_guard_1.AuthGuard),
     (0, permissions_decorator_1.Permissions)(['all-permissions']),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
