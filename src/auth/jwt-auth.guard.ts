@@ -1,4 +1,3 @@
-// src/auth/jwt-auth.guard.ts
 import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '../jwt/jwt.service';
 import { Request } from 'express';

@@ -1,4 +1,3 @@
-// src/auth/auth.guard.ts
 import {
   CanActivate,
   ExecutionContext,
@@ -10,7 +9,6 @@ import { Reflector } from '@nestjs/core';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '../jwt/jwt.service';
 import { Request } from 'express';
-import { Permissions } from '../middlewares/decorators/permissions.decorator';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -41,7 +39,7 @@ export class AuthGuard implements CanActivate {
     const user = await this.usersService.findByEmail(payload.email);
     if (!user) throw new UnauthorizedException('Usuario no encontrado');
 
-    request['user'] = user; // opcional, por si querés usarlo más adelante
+    request['user'] = user;
 
     const requiredPermissions = this.reflector.get<string[]>(
   'permissions',

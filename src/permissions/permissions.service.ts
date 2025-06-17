@@ -16,13 +16,11 @@ export class PermissionsService {
   ) {}
 
   async create(createPermissionDto: CreatePermissionDto) {
-    // Validar que los roles existen en BD
     const roles = await this.rolesRepository.findByIds(createPermissionDto.roleIds);
     if (roles.length !== createPermissionDto.roleIds.length) {
       throw new NotFoundException('One or more roles not found');
     }
 
-    // Crear permiso y asignar roles
     const newPermission = this.permissionsRepository.create({
       name: createPermissionDto.name,
       description: createPermissionDto.description,
@@ -42,12 +40,11 @@ export class PermissionsService {
     .leftJoinAndSelect('permission.roles', 'role')
     .getMany();
 
-  // Mapear para dejar solo los IDs de roles
   return permissions.map(permission => ({
     id: permission.id,
     name: permission.name,
     description: permission.description,
-    roles: permission.roles.map(role => role.id), // <--- Solo IDs
+    roles: permission.roles.map(role => role.id),
   }));
 }
 

@@ -12,7 +12,6 @@ export class RolesService {
   ) {}
 
   async create(createRoleDto: CreateRoleDto) {
-    // Chequea si el rol ya existe para evitar duplicados
     const existing = await this.rolesRepository.findOneBy({ name: createRoleDto.name });
     if (existing) {
       throw new HttpException('Role already exists', 400);
